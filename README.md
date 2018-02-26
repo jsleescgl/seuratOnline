@@ -9,10 +9,10 @@ devtools::install_github("aymanm/seuratOnline")
 
 ```
 library(seuratOnline)
-seuratOnline() //this will run on port 1234 by default
+seuratOnline() #this will run on port 1234 by default
 ```
 
-To run on specific port
+To run on specific port:
 
 ```
 portNumber = 5555
