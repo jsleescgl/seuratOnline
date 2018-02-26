@@ -5,8 +5,6 @@ require(shinycssloaders)
 require(DT)
 require(shiny)
 require(plotly)
-
-require(DT)
 require(Seurat)
 require(dplyr)
 require(Matrix)
@@ -55,9 +53,9 @@ ui <- tagList(dashboardPage(
              source("ui-tab-finish.R",local = TRUE)$value,
              source("ui-tab-findMarkers.R",local = TRUE)$value
     )
-    
+
   )
-  
+
 ),
 tags$footer(
   wellPanel(
