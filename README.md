@@ -3,7 +3,9 @@
 
 ## Install:
 
+```
 devtools::install_github("aymanm/seuratOnline")
+```
 
 ## Run:
 
