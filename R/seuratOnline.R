@@ -1,5 +1,5 @@
 #' @export
-seuratOnline <- function(port){
+seuratOnline <- function(port=NULL){
   if(is.null(port))
     port = 1234
   appDir <- system.file('shiny', package = "seuratOnline")
