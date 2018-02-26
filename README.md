@@ -11,7 +11,7 @@ devtools::install_github("aymanm/seuratOnline")
 library(seuratOnline)
 seuratOnline()
 ```
-This will run on port http://0.0.0.0:1234/ by default
+This will run on http://0.0.0.0:1234/ by default
 
 ***
 
