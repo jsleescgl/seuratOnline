@@ -1,7 +1,11 @@
 #' @export
-seuratOnline <- function(port=NULL){
+seuratOnline <- function(ip=NULL,port=NULL){
+  if(is.null(ip))
+    ip = '0.0.0.0'
+
   if(is.null(port))
     port = 1234
+
   appDir <- system.file('shiny', package = "seuratOnline")
-  shiny::runApp(appDir,host = getOption('shiny.host', '0.0.0.0'),port = port,launch.browser = FALSE)
+  shiny::runApp(appDir,host = getOption('shiny.host', ip),port = port,launch.browser = FALSE)
 }
