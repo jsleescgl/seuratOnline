@@ -1,9 +1,9 @@
 
-options(shiny.maxRequestSize = 600*1024^2)
+#max upload 300mb
+options(shiny.maxRequestSize = 300*1024^2)
 
 
 server <- function(input, output, session) {
-
 
   source("server-initInputData.R",local = TRUE)
 
