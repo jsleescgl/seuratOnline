@@ -25,3 +25,10 @@ portNumber = 5555
 seuratOnline(ip,portNumber)
 ```
 This will run on http://127.0.0.1:5555/
+
+## Screenshots:
+![alt text](screenshots/screenshot-input.png "Input Data")
+
+![alt text](screenshots/screenshot-vln.png "Vln Plots")
+
+![alt text](screenshots/screenshot-biomarkers.png "Cluster Biomarkers")
