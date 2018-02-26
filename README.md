@@ -3,18 +3,25 @@
 
 ## Install:
 
+```
 devtools::install_github("aymanm/seuratOnline")
+```
 
 ## Run:
 
 ```
 library(seuratOnline)
-seuratOnline() #this will run on port 1234 by default
+seuratOnline()
 ```
+This will run on http://0.0.0.0:1234/ by default
 
-To run on specific port:
+***
+
+To run on specific ip/port:
 
 ```
+ip = '127.0.0.1'
 portNumber = 5555
-seuratOnline(portNumber)
+seuratOnline(ip,portNumber)
 ```
+This will run on http://127.0.0.1:5555/
