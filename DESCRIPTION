@@ -1,8 +1,8 @@
 Package: seuratOnline
-Title: What the Package Does (one line, title case)
+Title: User Interface to Seurat (Single Cell) in R Shiny
 Version: 0.0.0.9000
-Authors@R: person("First", "Last", email = "first.last@example.com", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Authors@R: person("Ayman", "Yousif", email = "ay21@nyu.edu", role = c("aut", "cre"))
+Description: User Interface to Seurat (Single Cell) in R Shiny
 Depends: R (>= 3.4)
 License: What license is it under?
 Encoding: UTF-8
