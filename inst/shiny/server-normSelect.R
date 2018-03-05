@@ -43,6 +43,8 @@ findVariableGenesReactive <-
       if(length(input$filterSpecGenes) > 0)
         varsToRegressSelect = c(varsToRegressSelect,paste0("percent.",input$customGenesLabel))
 
+      if(length(input$filterPasteGenes) > 0)
+        varsToRegressSelect = c(varsToRegressSelect,paste0("percent.",input$pasteGenesLabel))
 
       updateSelectizeInput(session,'varsToRegress',
                            choices=varsToRegressSelect, selected= varsToRegressSelect[varsToRegressSelect != "nGene"])

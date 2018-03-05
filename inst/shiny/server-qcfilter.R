@@ -80,24 +80,17 @@ analyzeDataReactive <-
                   withProgress(message = "Analyzing Single Cell data, please wait",{
                     print("analysisCountDataReactive")
 
-                    #rawData = inputDataReactive()$data
                     pbmc <- initSeuratObjReactive()$pbmc
 
                     js$addStatusIcon("qcFilterTab","loading")
 
                     shiny::setProgress(value = 0.3, detail = " Applying Filters ...")
 
-                    #pbmc.data <- read.csv("~/Downloads/seuratScript/Filipe_merged_Raw counts_symbols.csv", header=TRUE, sep=",", row.names = 1)
-
-
-
-
                     #######
 
                     if(length(myValues$exprList) > 0)
                     {
 
-                      #myValues$patternGenes = myValues$exprList
 
                       for (i in 1:length(myValues$exprList)) {
 
@@ -106,7 +99,7 @@ analyzeDataReactive <-
 
                         pattern.genes <- grep(pattern = exprPattern, x = rownames(x = pbmc@data), value = TRUE)
                         percent.pattern <- Matrix::colSums(pbmc@raw.data[pattern.genes, ])/Matrix::colSums(pbmc@raw.data)
-                        #browser()
+
                         pbmc <- AddMetaData(object = pbmc, metadata = percent.pattern, col.name = paste("percent.",exprName, sep = ""))
 
                       }
@@ -118,6 +111,15 @@ analyzeDataReactive <-
                       percent.pattern <- Matrix::colSums(pbmc@raw.data[input$filterSpecGenes, ])/Matrix::colSums(pbmc@raw.data)
 
                       pbmc <- AddMetaData(object = pbmc, metadata = percent.pattern, col.name = paste0("percent.",input$customGenesLabel))
+
+                    }
+
+                    if(length(input$filterPasteGenes) > 0)
+                    {
+
+                      percent.pattern <- Matrix::colSums(pbmc@raw.data[input$filterPasteGenes, ])/Matrix::colSums(pbmc@raw.data)
+
+                      pbmc <- AddMetaData(object = pbmc, metadata = percent.pattern, col.name = paste0("percent.",input$pasteGenesLabel))
 
                     }
 
@@ -134,6 +136,8 @@ analyzeDataReactive <-
                       subsetNames = c(paste("percent.",names(myValues$exprList), sep = ""), subsetNames)
                     if(length(input$filterSpecGenes) > 0)
                       subsetNames = c(paste0("percent.",input$customGenesLabel), subsetNames)
+                    if(length(input$filterPasteGenes) > 0)
+                      subsetNames = c(paste0("percent.",input$pasteGenesLabel), subsetNames)
 
                     updateSelectizeInput(session,'subsetNames',
                                          choices=subsetNames, selected=subsetNames)
@@ -142,9 +146,58 @@ analyzeDataReactive <-
 
                     js$addStatusIcon("qcFilterTab","done")
 
-                    #updateTabItems(session, "tabs", "vlnplot")
                     js$addStatusIcon("vlnplot","next")
 
                     return(list('pbmc'=pbmc))
-                  })}
+                  })
+                  }
   )
+
+
+observe({
+
+  filterTextReactive()
+})
+
+filterTextReactive <- eventReactive(input$addFilterPaste, {
+
+  validate(
+    need(input$listPasteGenes != "", message = "list of genes empty"),
+    need(input$pasteGenesLabel != "", message = "genes label empty")
+  )
+
+  pbmc <- initSeuratObjReactive()$pbmc
+
+  genes = unlist(strsplit(input$listPasteGenes,input$delimeter))
+
+  genes = gsub("^\\s+|\\s+$", "", genes)
+  genes = gsub("\\n+$|^\\n+", "", genes)
+  genes = gsub("^\"|\"$", "", genes)
+  genesNotFound = genes[!(genes %in% rownames(x = pbmc@data))]
+
+  if(length(genesNotFound) == 0){
+    updateSelectizeInput(session,'filterPasteGenes',
+                         choices=genes, selected=genes)
+
+    updateTextInput(session, "listPasteGenes", value = "")
+  }
+
+  return(list('genes' =genes,'notfound'=genesNotFound))
+})
+
+
+
+output$value <- renderText(
+  {
+
+    if(length(filterTextReactive()$notfound) > 0)
+      paste(filterTextReactive()$notfound, collapse='\n' )
+  }
+)
+
+output$genesNotFound <-
+  reactive({
+    return(length(filterTextReactive()$notfound) > 0)
+  }
+)
+outputOptions(output, 'genesNotFound', suspendWhenHidden=FALSE)

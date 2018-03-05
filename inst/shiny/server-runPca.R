@@ -34,15 +34,6 @@ runPcaReactive <-
 
       updateTabItems(session, "tabs", "runPcaTab")
 
-      # showTab(inputId = "inTabset", target = "vizPcaPlot")
-      # showTab(inputId = "inTabset", target = "pcaPlot")
-      # showTab(inputId = "inTabset", target = "heatmapPlot")
-
-      # showTab(inputId = "inTabset" , target = "runPcaTab")
-      #
-      # updateTabsetPanel(session, "inTabset",
-      #                   selected = "dispersionPlot"
-      # )
       return(list('pbmc'=pbmc))
     })}
   )
@@ -58,7 +49,7 @@ outputOptions(output, 'pcsPrintAvailable', suspendWhenHidden=FALSE)
 output$pcsPrint <- renderText({
 
   pbmc <- runPcaReactive()$pbmc
-  #print(paste("number of variable genes found: ", length(x = pbmc@var.genes)))
+
   printStr = capture.output(PrintPCA(object = pbmc, pcs.print = 1:input$numPCs, genes.print = input$numGenes, use.full = FALSE))
 
   printStr = gsub("\\[1\\]","",printStr)

@@ -64,21 +64,19 @@ output$vlnPlotsUI <- renderUI({
 })
 
 
-
-
-output$VlnPlot <- renderPlot({
-
-  pbmc <- analyzeDataReactive()$pbmc
-
-  featurePlots = c("nGene", "nUMI")
-  if(length(myValues$exprList) > 0)
-    featurePlots = c(featurePlots, paste("percent.",names(myValues$exprList), sep = ""))
-
-  if(length(input$filterSpecGenes) > 0)
-    featurePlots = c(featurePlots,paste0("percent.",input$customGenesLabel))
-
-  VlnPlot(object = pbmc, features.plot = featurePlots, nCol = 3)
-})
+# output$VlnPlot <- renderPlot({
+#
+#   pbmc <- analyzeDataReactive()$pbmc
+#
+#   featurePlots = c("nGene", "nUMI")
+#   if(length(myValues$exprList) > 0)
+#     featurePlots = c(featurePlots, paste("percent.",names(myValues$exprList), sep = ""))
+#
+#   if(length(input$filterSpecGenes) > 0)
+#     featurePlots = c(featurePlots,paste0("percent.",input$customGenesLabel))
+#
+#   VlnPlot(object = pbmc, features.plot = featurePlots, nCol = 3)
+# })
 
 output$GenePlot <- renderPlot({
 
@@ -90,6 +88,8 @@ output$GenePlot <- renderPlot({
     geneListNames = c(paste("percent.",names(myValues$exprList), sep = ""), geneListNames)
   if(length(input$filterSpecGenes) > 0)
     geneListNames = c(paste0("percent.",input$customGenesLabel),geneListNames)
+  if(length(input$filterPasteGenes) > 0)
+    geneListNames = c(paste0("percent.",input$pasteGenesLabel),geneListNames)
 
   par(mfrow = c(1, length(geneListNames)))
 

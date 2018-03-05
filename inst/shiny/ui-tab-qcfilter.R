@@ -1,13 +1,13 @@
-tabItem(tabName = "qcFilterTab", 
-        
+tabItem(tabName = "qcFilterTab",
+
         fluidRow(
-          
+
           column(12,
                  h3(strong("QC & Filter (Preprocessing)")),
                  hr(),
-                 
+
                  wellPanel(
-                   
+
                    column(12,
                           tags$div(class = "",
                                    h4(strong("Filter Cells")),
@@ -19,11 +19,11 @@ tabItem(tabName = "qcFilterTab",
                                                    wellPanel(
                                                      column(12,
                                                             column(6,
-                                                                   textInput("regexFilter", "By Regex Expression", 
+                                                                   textInput("regexFilter", "By Regex Expression",
                                                                              placeholder = "Eg. ^MT- for genes that start with 'MT-'")
                                                             ),
                                                             column(6,
-                                                                   textInput("regexFilterLabel", "Label (no spaces)", 
+                                                                   textInput("regexFilterLabel", "Label (no spaces)",
                                                                              placeholder = "Eg. mito")
                                                             )
                                                      )
@@ -56,23 +56,74 @@ tabItem(tabName = "qcFilterTab",
                                                                     choices=NULL,
                                                                     multiple=TRUE)
                                                    )
-                                                   
+
                                             ),
                                             tags$div(class = "clearBoth")
                                    ),
                                    tags$div(class = "BoxArea2",
-                                            h4(strong("By Specific Genes:")),
+                                            h4(strong("Select Specific Genes:")),
                                             wellPanel(style = "background-color:lightblue;",
-                                                      textInput("customGenesLabel", "Label (no spaces)", 
-                                                                placeholder = "Eg. mito.genes"),       
+                                                      textInput("customGenesLabel", "Label (no spaces)",
+                                                                placeholder = "Eg. mito.genes"),
                                               selectizeInput("filterSpecGenes", label="Select Genes",
                                                              choices=NULL,
                                                              multiple=TRUE,
                                                              options = list(
-                                                               placeholder = 
+                                                               placeholder =
                                                                  'Start typing gene name'
                                                              ))
                                             )
+                                   )
+                                   ,
+                                   tags$div(class = "BoxArea2",
+
+
+                                              h4(strong("Paste Specific Genes:")),
+
+                                              column(8,
+                                                     wellPanel(
+                                                     textAreaInput("listPasteGenes", "Paste List Of Genes", width = "100%", rows = 5),
+                                                     column(4,
+                                                            textInput("pasteGenesLabel", "Label (no spaces)",placeholder = "Eg. ribosomal")
+                                                            )
+                                                     ,
+                                                     column(4,
+                                                            selectInput("delimeter", "Delimeter",
+                                                                        choices = c("(comma)" = ",",
+                                                                                    "(space)" = " ",
+                                                                                    "(tab)" = "\t",
+                                                                                    "(enter)" = "\n")
+                                                                        , selected = ",")
+                                                            ),
+                                                     column(4,
+                                                            actionButton("addFilterPaste","Add genes",class = "button button-3d button-primary", style = "width: 100%")
+                                                            ),
+                                                     div(style = "clear:both;")
+                                                     )
+                                              ),
+                                              column(4,
+                                                     selectizeInput("filterPasteGenes", label="Added Genes",
+                                                                    choices=NULL,
+                                                                    multiple=TRUE
+                                                     ),
+
+                                                     conditionalPanel("output.genesNotFound",
+
+                                                                      tags$div(
+                                                                        style = "padding:10px;border: 3px solid; border-color:red; border-radius:10px; background-color:#fdfdfd; opacity: 0.90;",
+                                                                        h4("Genes not found"),
+                                                                        verbatimTextOutput("value"),
+                                                                        HTML("<i class=\"fa fa-info-circle\"> <small>Remove/Correct those genes that are not found and click \"Add Genes\"</small></i> "),
+                                                                        div(style = "clear:both;")
+                                                                      )
+
+                                                     )
+                                              ),
+                                              hr(),
+
+                                              div(style = "clear:both;")
+
+
                                    )
                                    ,
                                    tags$div(class = "clearBoth")
@@ -83,8 +134,8 @@ tabItem(tabName = "qcFilterTab",
                           actionButton("submit_data","Submit Data",class = "button button-3d button-block button-pill button-primary button-large", style = "width: 100%"))
                    ,
                    tags$div(class = "clearBoth")
-                   
-                   
+
+
                  )
           )
         )
