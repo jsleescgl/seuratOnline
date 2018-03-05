@@ -16,6 +16,9 @@ tsneReactive <-
 
       pbmc <- RunTSNE(object = pbmc, dims.use = input$tsnePCDim1:input$tsnePCDim2, do.fast = TRUE)
 
+      updateSelectizeInput(session,'clusterNumCells',
+                           choices=levels(pbmc@ident), selected=NULL)
+
       shiny::setProgress(value = 0.9, detail = "Done.")
 
 
@@ -44,3 +47,56 @@ output$tsnePlotAvailable <- reactive({
   return(!is.null(tsneReactive()$pbmc))
 })
 outputOptions(output, 'tsnePlotAvailable', suspendWhenHidden=FALSE)
+
+### Cells in Clusters
+output$clustercellsavailable <-
+  reactive({
+    return(!is.null(cellsInClusterReactive()$clustername))
+  })
+outputOptions(output, 'clustercellsavailable', suspendWhenHidden=FALSE)
+
+observe({
+  cellsInClusterReactive()
+})
+
+cellsInClusterReactive <- eventReactive(input$findCellsInCluster, {
+
+  pbmc <- tsneReactive()$pbmc
+  cellsInCluster <- WhichCells(object = pbmc, ident = input$clusterNumCells)
+
+
+  print(length(cellsInCluster))
+
+  ### Format the output to fit in a table
+  extLength = round(length(cellsInCluster)/5)*5
+  length(cellsInCluster) = extLength
+  cellsInCluster = matrix(cellsInCluster,extLength/5,5)
+  colnames(cellsInCluster) = c(" "," "," "," "," ")
+  cellsInCluster[is.na(cellsInCluster)] = ""
+
+  return(list("clustername" = paste0("cellsClusterId",input$clusterNumCells),"cellsInCluster"=cellsInCluster))
+})
+
+output$cellsInClusters <- renderDataTable({
+  tmp <- cellsInClusterReactive()
+
+  if(!is.null(tmp)){
+    datatable(as.matrix(tmp$cellsInCluster),options = list(ordering=F))
+  }
+
+})
+
+output$downloadClusterCells <- downloadHandler(
+
+  filename = function() {paste0(cellsInClusterReactive()$clustername,".csv")},
+  content = function(file) {
+    csv = tail(cellsInClusterReactive()$cellsInCluster,-1)
+
+    write.csv(csv, file, row.names=F)
+    }
+
+)
+
+
+
+
