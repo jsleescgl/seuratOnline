@@ -10,6 +10,12 @@ observe({
                          choices=levels(pbmc@ident), selected=NULL)
     updateSelectizeInput(session,'clusterNumVS2',
                          choices=levels(pbmc@ident), selected=NULL)
+
+    updateSelectizeInput(session,'genesToPlotVln',
+                         choices=pbmc@var.genes, selected=NULL)
+
+    updateSelectizeInput(session,'genesToFeaturePlot',
+                         choices=pbmc@var.genes, selected=NULL)
   }
 
 })
@@ -151,3 +157,38 @@ output$clusterMarkersAllAvailable <-
     return(!is.null(findClusterMarkersAllReactive()$clustername))
   })
 outputOptions(output, 'clusterMarkersAllAvailable', suspendWhenHidden=FALSE)
+
+
+output$VlnMarkersPlot = renderPlot({
+
+  if(input$plotVlns < 1)
+    return()
+
+  isolate({
+    validate(
+      need(length(input$genesToPlotVln) > 0, message = "Select atleast one gene")
+    )
+
+    pbmc = tsneReactive()$pbmc
+
+    VlnPlot(object = pbmc, features.plot = input$genesToPlotVln, use.raw = input$useRaw, y.log = input$ylog)
+  })
+
+})
+
+output$FeatureMarkersPlot = renderPlot({
+
+  if(input$plotFeatureMarkers < 1)
+    return()
+
+  isolate({
+    validate(
+      need(length(input$genesToFeaturePlot) > 0, message = "Select atleast one gene")
+    )
+
+    pbmc = tsneReactive()$pbmc
+
+    FeaturePlot(object = pbmc, features.plot = input$genesToFeaturePlot, cols.use = c("grey", "blue"),reduction.use = input$reducUseFeature)
+  })
+
+})

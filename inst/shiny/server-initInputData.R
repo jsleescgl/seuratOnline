@@ -14,6 +14,7 @@ observe({
   shinyjs::hide(selector = "a[data-value=\"tsneTab\"]")
   shinyjs::hide(selector = "a[data-value=\"finishTab\"]")
   shinyjs::hide(selector = "a[data-value=\"findMarkersTab\"]")
+  shinyjs::hide(selector = "a[data-value=\"vizMarkersTab\"]")
 
   # Check if example selected, or if not then ask to upload a file.
   shiny:: validate(

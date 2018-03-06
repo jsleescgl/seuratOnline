@@ -24,6 +24,7 @@ tsneReactive <-
 
       shinyjs::show(selector = "a[data-value=\"finishTab\"]")
       shinyjs::show(selector = "a[data-value=\"findMarkersTab\"]")
+      shinyjs::show(selector = "a[data-value=\"vizMarkersTab\"]")
       shinyjs::show(selector = "a[data-value=\"tsneTab\"]")
 
 
@@ -40,7 +41,7 @@ output$tsnePlot <- renderPlot({
 
   pbmc <- tsneReactive()$pbmc
 
-  TSNEPlot(object = pbmc)
+  TSNEPlot(object = pbmc, do.label = TRUE)
 })
 
 output$tsnePlotAvailable <- reactive({

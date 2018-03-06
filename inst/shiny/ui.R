@@ -25,7 +25,8 @@ ui <- tagList(dashboardPage(
       menuItem("Cluster Cells", tabName = "clusterCells", icon = icon("th")),
       menuItem("TSNE (Non-linear)", tabName = "tsneTab", icon = icon("th")),
       menuItem("Download Seurat Obj", tabName = "finishTab", icon = icon("th")),
-      menuItem("Cluster Markers", tabName = "findMarkersTab", icon = icon("th"))
+      menuItem("Cluster Markers", tabName = "findMarkersTab", icon = icon("th")),
+      menuItem("Viz Markers", tabName = "vizMarkersTab", icon = icon("bar-chart"))
     )
   ),
   dashboardBody(
@@ -50,7 +51,8 @@ ui <- tagList(dashboardPage(
              source("ui-tab-clusterCells.R",local = TRUE)$value,
              source("ui-tab-tsne.R",local = TRUE)$value,
              source("ui-tab-finish.R",local = TRUE)$value,
-             source("ui-tab-findMarkers.R",local = TRUE)$value
+             source("ui-tab-findMarkers.R",local = TRUE)$value,
+             source("ui-tab-vizMarkers.R",local = TRUE)$value
     )
 
   )
