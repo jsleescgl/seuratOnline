@@ -79,7 +79,10 @@ hr {
 
 
 
-
+/* Fix indent icon on side bar*/
+.sidebar-menu>li .badge,.sidebar-menu>li .label {
+    margin-right: 0;
+}
 
 
 
