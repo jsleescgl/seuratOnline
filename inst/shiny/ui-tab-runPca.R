@@ -16,9 +16,9 @@ tabItem(tabName = "runPcaTab",
                              )
            )
            ,
-           
+
            hr(),
-           
+
            column(12,
                   tags$div(class = "BoxArea2",
                            h4(strong("Perform linear dimensional reduction")),
@@ -30,20 +30,20 @@ tabItem(tabName = "runPcaTab",
                            tags$div(class = "clearBoth"),
                            conditionalPanel("output.pcsPrintAvailable",
                                             h4(style = "min-height: 60px;", strong("PCA Print Output"),
-                                               actionButton("vizPca", "Visualize PCA", class = "button button-3d button-block button-pill button-action button-large")
+                                               actionButton("vizPca", "Visualize PCA", class = "button button-3d button-block button-pill button-action")
                                                ),
                                             tags$div(class = "BoxArea",htmlOutput("pcsPrint"), tags$div(class = "clearBoth")))
-                           
+
                            )
-                  
+
            ),
            hr(),
            column(12,
                   actionButton("runPca","Scale and Perform PCA",class = "button button-3d button-block button-pill button-primary button-large",style = "width: 100%"))
            ,
            tags$div(class = "clearBoth")
-           
-           
+
+
                   )
          )
            )
