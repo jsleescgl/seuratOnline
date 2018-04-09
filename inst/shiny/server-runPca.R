@@ -13,7 +13,7 @@ runPcaReactive <-
 
       shiny::setProgress(value = 0.3, detail = "Scaling Data (this might take a while)...")
 
-      pbmc <- ScaleData(object = pbmc, vars.to.regress = input$varsToRegress)
+      pbmc <- ScaleData(object = pbmc, vars.to.regress = input$varsToRegress, do.par = T)
 
       shiny::setProgress(value = 0.6, detail = "Performing PCA ...")
 

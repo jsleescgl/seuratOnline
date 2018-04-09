@@ -15,7 +15,7 @@ jackStrawReactive <-
 
       shiny::setProgress(value = 0.3, detail = "Running JackStraw Procedure (this might take a while)...")
 
-      pbmc <- JackStraw(object = pbmc, num.replicate = input$numReplicates, do.print = FALSE)
+      pbmc <- JackStraw(object = pbmc, num.replicate = input$numReplicates, do.print = FALSE, do.par = T)
 
       shiny::setProgress(value = 0.9, detail = "Done.")
 
