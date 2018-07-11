@@ -12,10 +12,10 @@ observe({
                          choices=levels(pbmc@ident), selected=NULL)
 
     updateSelectizeInput(session,'genesToPlotVln',
-                         choices=pbmc@var.genes, selected=NULL)
+                         choices=values$clusterGenes, selected=NULL)
 
     updateSelectizeInput(session,'genesToFeaturePlot',
-                         choices=pbmc@var.genes, selected=NULL)
+                         choices=values$clusterGenes, selected=NULL)
   }
 
 })
@@ -35,6 +35,21 @@ findClusterMarkersReactive <- eventReactive(input$findClusterMarkers, {
     cluster.markers <- FindMarkers(object = pbmc, ident.1 = input$clusterNum, min.pct = input$minPct, test.use = input$testuse, only.pos = input$onlypos)
 
     shiny::setProgress(value = 0.8, detail = "Done.")
+
+    if(is.null(values$clusterGenes))
+      values$clusterGenes = rownames(cluster.markers)
+    else
+      values$clusterGenes = c(values$clusterGenes, rownames(cluster.markers) )
+
+    values$clusterGenes = unique(values$clusterGenes)
+
+
+    updateSelectizeInput(session,'genesToPlotVln',
+                         choices=pbmc@var.genes, selected=NULL)
+
+    updateSelectizeInput(session,'genesToFeaturePlot',
+                         choices=pbmc@var.genes, selected=NULL)
+
     js$addStatusIcon("findMarkersTab","done")
     return(list("clustername" = paste0("cluster",input$clusterNum),"clustermarkers"=cluster.markers))
   })
@@ -75,6 +90,12 @@ findClusterMarkersVSReactive <- eventReactive(input$findClusterMarkersVS, {
     shiny::setProgress(value = 0.4, detail = "Finding cluster markers ...")
     cluster.markers <- FindMarkers(object = pbmc, ident.1 = input$clusterNumVS1, ident.2 = input$clusterNumVS2, min.pctvs = input$minPct, test.use = input$testuseVS, only.pos = input$onlyposVS)
 
+    if(is.null(values$clusterGenes))
+      values$clusterGenes = rownames(cluster.markers)
+    else
+      values$clusterGenes = c(values$clusterGenes, rownames(cluster.markers) )
+
+    values$clusterGenes = unique(values$clusterGenes)
 
     shiny::setProgress(value = 0.8, detail = "Done.")
     js$addStatusIcon("findMarkersTab","done")
@@ -128,6 +149,13 @@ findClusterMarkersAllReactive <- eventReactive(input$findClusterMarkersAll, {
     if(input$numGenesPerCluster > 0)
       cluster.markers = cluster.markers %>% group_by(cluster) %>% top_n(input$numGenesPerCluster, avg_logFC)
 
+
+    if(is.null(values$clusterGenes))
+      values$clusterGenes = rownames(cluster.markers)
+    else
+      values$clusterGenes = c(values$clusterGenes, rownames(cluster.markers) )
+
+    values$clusterGenes = unique(values$clusterGenes)
 
     shiny::setProgress(value = 0.8, detail = "Done.")
     js$addStatusIcon("findMarkersTab","done")
@@ -188,7 +216,7 @@ output$FeatureMarkersPlot = renderPlot({
 
     pbmc = tsneReactive()$pbmc
 
-    FeaturePlot(object = pbmc, features.plot = input$genesToFeaturePlot, cols.use = c("grey", "blue"),reduction.use = input$reducUseFeature)
+    FeaturePlot(object = pbmc, features.plot = input$genesToFeaturePlot, cols.use = c("gray88", "blue"),reduction.use = input$reducUseFeature, pt.size = 2)
   })
 
 })
