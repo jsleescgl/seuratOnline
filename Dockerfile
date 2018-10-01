@@ -1,7 +1,7 @@
 FROM continuumio/miniconda3
 
 RUN apt-get update -y && \
-    apt-get install -y build-essential
+    apt-get install -y build-essential libv8-3.14-dev gfortran
 
 RUN conda config --add channels conda-forge && \
     conda config --add channels bioconda
