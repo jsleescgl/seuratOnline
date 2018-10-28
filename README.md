@@ -1,3 +1,11 @@
+## THIS APP REPOSITORY HAS BEEN PERMENANTLY MOVED TO [SEURATWIZARD](https://github.com/nasqar/SeuratWizard)
+## PLEASE REFER TO NEW REPO FOR UPDATES AND DOCUMENTATION
+
+
+---
+
+
+
 # seuratOnline: R Shiny interface for Seurat single-cell analysis library
 
 
