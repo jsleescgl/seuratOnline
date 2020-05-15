@@ -25,7 +25,6 @@ tabItem(tabName =  "jackStrawPlot",
                                           h4(strong("PC Elbow Plot (PCElbowPlot)")),
                                           p("A more ad hoc method for determining which PCs to use is to look at a plot of the standard deviations of the principle components and draw your cutoff where there is a clear elbow in the graph. This can be done with PCElbowPlot."),
                                           withSpinner(plotOutput(outputId = "pcElbowPlot")),
-                                          p("PC selection – identifying the true dimensionality of a dataset – is an important step for Seurat, but can be challenging/uncertain for the user. We therefore suggest these three approaches to consider. The first is more supervised, exploring PCs to determine relevant sources of heterogeneity, and could be used in conjunction with GSEA for example."),
                                           p("The second implements a statistical test based on a random null model, but is time-consuming for large datasets, and may not return a clear PC cutoff. The third is a heuristic that is commonly used, and can be calculated instantly.")
                          ),
                          hr(),
